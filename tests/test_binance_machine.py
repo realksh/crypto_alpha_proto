@@ -17,8 +17,8 @@ class BinanceMachineTestCase(unittest.TestCase):
         
     def test_get_ohlcvs(self):
         print(inspect.stack()[0][3])
-        ohlcvs = self.binance_machine.get_ohlcvs("ETH/USDT")
-        assert ohlcvs
+        ohlcvs = self.binance_machine.get_today_ohlcvs("ETH/USDT", '17')
+        assert not ohlcvs.empty
         print(ohlcvs)
 
     def test_get_balance(self):
