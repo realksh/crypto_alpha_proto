@@ -1,37 +1,36 @@
 import configparser
 import ccxt
 
-class Exchange(object):
+class ExchangeBinance(object):
     #이곳에 각 거래소 인스턴스를 만든다
-    __binance = None
-    __upbit = None
+    __instance = None
 
     def __init__(self):
-        pass
+        if ExchangeBinance.__instance:
+            self.get_instance()
 
-    @property
-    def binance(self):
-        if not self.__binance:
+    @classmethod
+    def get_instance(cls):
+        if not cls.__instance:
             config = configparser.ConfigParser()
             config.read('conf/config.cfg')
             API_KEY = config['BINANCE']['apiKey']
             SECRET_KEY = config['BINANCE']['secretKey']
-            self.__binance = ccxt.binance(config={
-            'apiKey' : API_KEY,
-            'secret' : SECRET_KEY,
-            'timeout': 30000,
-            'enableRateLimit': True,
-            'options': {
-                'defaultType': 'future',
-                'adjustForTimeDifference': True,
-            },
-        })
-        
-        return self.__binance
+            cls.__instance = ccxt.binance(config={
+                'apiKey': API_KEY,
+                'secret': SECRET_KEY,
+                'timeout': 30000,
+                'enableRateLimit': True,
+                'options': {
+                    'defaultType': 'future',
+                    'adjustForTimeDifference': True,
+                },
+            })
+        return cls.__instance
 
-b1 = Exchange.binance
+b1 = ExchangeBinance.get_instance()
 print(b1)
-b2 = Exchange.binance
+b2 = ExchangeBinance.get_instance()
 print(b2)
 
 print(b1 == b2)

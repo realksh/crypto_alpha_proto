@@ -3,6 +3,7 @@ import sys
 sys.path.append(".")
 from trading.machine.binance_machine import BinanceMachine
 import inspect
+from pprint import pprint
 
 class BinanceMachineTestCase(unittest.TestCase):
 
@@ -17,9 +18,9 @@ class BinanceMachineTestCase(unittest.TestCase):
         
     def test_get_ohlcvs(self):
         print(inspect.stack()[0][3])
-        ohlcvs = self.binance_machine.get_today_ohlcvs("ETH/USDT", '17')
+        ohlcvs = self.binance_machine.get_candles("ETH/USDT", '14m')
         assert not ohlcvs.empty
-        print(ohlcvs)
+        pprint(ohlcvs)
 
     def test_get_balance(self):
         print(inspect.stack()[0][3])
